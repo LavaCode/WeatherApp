@@ -4,6 +4,8 @@ import TabBarMenu from './components/tabBarMenu/TabBarMenu';
 import MetricSlider from './components/metricSlider/MetricSlider';
 import './App.css';
 
+const apiKey = '9b585d8e9d62731b761fca47daf7c164';
+
 function App() {
   return (
     <>
