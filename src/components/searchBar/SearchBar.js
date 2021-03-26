@@ -5,9 +5,7 @@ function SearchBar({ setLocation }) {
   const [query, setQuery] = useState('');
 
   const handleClick = () => {
-    console.log('Je hebt zoek geklikt');
     setLocation(query);
-    console.log(query);
     };
   
   const handleKeyPress = e => {

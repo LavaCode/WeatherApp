@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import SearchBar from './components/searchBar/SearchBar';
 import TabBarMenu from './components/tabBarMenu/TabBarMenu';
 import MetricSlider from './components/metricSlider/MetricSlider';
+import ForecastTab from './pages/forecastTab/ForecastTab';
 import axios from 'axios';
+
 import './App.css';
 
 const apiKey = 'f47d4f545dbec124986ae15ba8de1f30';
@@ -10,15 +12,18 @@ const apiKey = 'f47d4f545dbec124986ae15ba8de1f30';
 function App() {
   const [weatherData, setWeatherData] = useState(null);
   const [location, setLocation] = useState('');
+  const [error, setError] = useState(false);
 
   useEffect(() => {
    //1.definieer functie
    async function fetchData() {
     try {
       const result = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${location},nl&appid=${apiKey}&lang=nl`);
+      setError(false);      
       setWeatherData(result.data);
     } catch (e) {
       console.error(e);
+      setError(true);
     }
   }
 
@@ -37,6 +42,8 @@ function App() {
         {/*HEADER -------------------- */}
         <div className="weather-header">
           <SearchBar setLocation={setLocation}/>
+          {error && (
+          <span className="wrong-location-error">Oeps! Deze locatie ken ik niet!</span>)}
 
           <span className="location-details">
             { weatherData && 
@@ -55,7 +62,7 @@ function App() {
           <TabBarMenu/>
 
           <div className="tab-wrapper">
-            Alle inhoud van de tabbladen komt hier!
+            <ForecastTab coordinates={weatherData && weatherData.coord}/>
           </div>
         </div>
 
