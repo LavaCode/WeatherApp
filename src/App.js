@@ -1,4 +1,4 @@
-import React, { cloneElement, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchBar from './components/searchBar/SearchBar';
 import TabBarMenu from './components/tabBarMenu/TabBarMenu';
 import MetricSlider from './components/metricSlider/MetricSlider';
@@ -8,23 +8,30 @@ import './App.css';
 const apiKey = 'f47d4f545dbec124986ae15ba8de1f30';
 
 function App() {
-  const [location, setLocation] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
+  const [location, setLocation] = useState('');
 
-  async function fetchData() {
+  useEffect(() => {
+   //1.definieer functie
+   async function fetchData() {
     try {
-      const result = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=utrecht,nl&appid=${apiKey}&lang=nl`);
+      const result = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${location},nl&appid=${apiKey}&lang=nl`);
       setWeatherData(result.data);
-      console.log(result.data);
-      console.log(weatherData.name);
     } catch (e) {
       console.error(e);
     }
   }
 
+  //2. Roep functie aan
+  if (location) {
+    fetchData();
+  }
+
+  //code wordt alleen afgevuurd als location veranderd
+}, [location]);
+
   return (
     <>
-
       <div className="weather-container">
 
         {/*HEADER -------------------- */}
@@ -40,9 +47,6 @@ function App() {
               </>
             }
 
-            <button type="button" onClick={fetchData}>
-              Haal data op!
-            </button>
           </span>
         </div>
 
