@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './ForecastTab.css';
+import kelvinToCelcius from '../../helpers/kelvinToCelcius';
+import createDateString from '../../helpers/createDateString';
 import axios from "axios";
 
 const apiKey = 'f47d4f545dbec124986ae15ba8de1f30';
@@ -8,11 +10,6 @@ function ForecastTab({ coordinates }) {
   const [forecasts, setForecasts] = useState(null);
   const [error, setError] = useState(false);
   const [loading, toggleLoading] = useState(false);
-
-  function createDateString(timestamp) {
-    const day = new Date(timestamp * 1000);
-    return day.toLocaleDateString('nl-NL', { weekday: 'long' });
-  }
 
   useEffect(() => {
     async function fetchData() {
@@ -26,7 +23,6 @@ function ForecastTab({ coordinates }) {
         console.error(e);
         setError(true);
       }
-
       toggleLoading(false);
     }
 
@@ -46,7 +42,7 @@ function ForecastTab({ coordinates }) {
             </p>
             <section className="forecast-weather">
               <span>
-                {forecast.temp.day}
+                {kelvinToCelcius(forecast.temp.day)}
               </span>
               <span className="weather-description">
                 {forecast.weather[0].description}
@@ -63,7 +59,6 @@ function ForecastTab({ coordinates }) {
       )}  
 
       {error && <span>Oeps, we kunnen geen data ophalen!</span>}
-
       {loading && (<span>Loading...</span>)}
     </div>
   );
