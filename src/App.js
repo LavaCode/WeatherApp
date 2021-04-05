@@ -12,8 +12,6 @@ import TodayTab from './pages/todayTab/TodayTab';
 import kelvinToCelcius from './helpers/kelvinToCelcius';
 import './App.css';
 
-const apiKey = 'f47d4f545dbec124986ae15ba8de1f30';
-
 function App() {
   const [weatherData, setWeatherData] = useState(null);
   const [location, setLocation] = useState('');
